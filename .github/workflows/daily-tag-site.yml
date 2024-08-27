@@ -65,14 +65,14 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
-        
+
       - name: Add content path
         run: |
           sed -i 's/manifest: {},/manifest: {basePath: "\/mirror\/umi-next\/",}, base: "\/mirror\/umi-next\/", publicPath: "\/mirror\/umi-next\/"/' .umirc.ts
-          sed -i 's/outputPath: \'..\/dist\',/outputPath: \'..\/dist\', base: "\/mirror\/umi-next\/", publicPath: "\/mirror\/umi-next\/"/' ./docs/.dumirc.ts
+          sed -i 's/({/({ base: "\/mirror\/umi-next\/", publicPath: "\/mirror\/umi-next\/",/' ./docs/.dumirc.ts
 
       - run: pnpm doc:build
-      
+
       - name: zip zite
         uses: montudor/action-zip@v1
         with:
@@ -82,7 +82,7 @@ jobs:
         id: tag
         run: |
           echo "::set-output name=release_tag::umi-next_$(date +"%Y.%m.%d_%H_%M_%S")"
- 
+
       - name: GH Release
         # You may pin to the exact commit or the version.
         # uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
